@@ -7,10 +7,20 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
 class MsgAdapter(val msgList: List<Msg>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-    inner class LeftViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+//    inner class LeftViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+//        val leftMsg: TextView = view.findViewById(R.id.leftMsg)
+//    }
+//    inner class RightViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+//        val rightMsg: TextView = view.findViewById(R.id.rightMsg)
+//    }
+
+    // 使用密封类更加简单
+    sealed class MsgViewHolder(view: View) : RecyclerView.ViewHolder(view)
+    // 为什么不需要定义为内部类inner class了？
+    class LeftViewHolder(view: View) : MsgViewHolder(view) {
         val leftMsg: TextView = view.findViewById(R.id.leftMsg)
     }
-    inner class RightViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    class RightViewHolder(view: View) : MsgViewHolder(view) {
         val rightMsg: TextView = view.findViewById(R.id.rightMsg)
     }
 
@@ -34,10 +44,15 @@ class MsgAdapter(val msgList: List<Msg>) : RecyclerView.Adapter<RecyclerView.Vie
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val msg = msgList[position]
+//        when (holder) {
+//            is LeftViewHolder -> holder.leftMsg.text = msg.content
+//            is RightViewHolder -> holder.rightMsg.text = msg.content
+//            else -> throw IllegalArgumentException()
+//        }
+        // 使用密封类，简化代码
         when (holder) {
             is LeftViewHolder -> holder.leftMsg.text = msg.content
             is RightViewHolder -> holder.rightMsg.text = msg.content
-            else -> throw IllegalArgumentException()
         }
     }
     override fun getItemCount() = msgList.size
