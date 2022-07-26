@@ -10,7 +10,8 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     // 消息内容列表
     private val msgList = ArrayList<Msg>()
     // 消息内容列表展示页面View适配器
-    private var adapter: MsgAdapter? = null
+//    private var adapter: MsgAdapter? = null
+    private lateinit var adapter: MsgAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,7 +31,8 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                 if (content.isNotEmpty()) {
                     val msg = Msg(content, Msg.TYPE_SENT)
                     msgList.add(msg)
-                    adapter?.notifyItemInserted(msgList.size - 1) // 当有新消息时，刷新RecyclerView中的显示
+//                    adapter?.notifyItemInserted(msgList.size - 1) // 当有新消息时，刷新RecyclerView中的显示
+                    adapter.notifyItemInserted(msgList.size - 1) // 当有新消息时，刷新RecyclerView中的显示
                     recyclerView.scrollToPosition(msgList.size - 1) // 将RecyclerView定位到最后一行
                     inputText.setText("") // 清空输入框中的内容
                 }
